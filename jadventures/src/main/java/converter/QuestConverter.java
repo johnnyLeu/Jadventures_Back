@@ -21,9 +21,7 @@ public class QuestConverter
                 .build();
     }
 
-    public QuestDtoWFull questToDtoWFull (Quest q)
-    {
-    
+    public QuestDtoWFull questToDtoWFull (Quest q) {    
         return QuestDtoWFull
                 .builder()
                 .date_created(q.getDate_created())
@@ -38,6 +36,5 @@ public class QuestConverter
                 .patron(q.getPatron())
                 .id(q.getId())
                 .build();
- 
     }
 }
