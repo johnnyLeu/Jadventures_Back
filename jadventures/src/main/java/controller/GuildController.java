@@ -17,6 +17,7 @@ import dto.guild.GuildDtoR;
 import dto.guild.GuildDtoWFull;
 import dto.guild.logInDtoR;
 import entities.Guild;
+import entities.LoginRequest;
 import repository.GuildRepository;
 
 @RestController
@@ -35,12 +36,6 @@ public List<GuildDtoWFull> getAllGuildFull() {
                 .toList();
 }
 
-@PostMapping("/patronlogin")
-public Guild logIn(@RequestBody logInDtoR LogDto)
-{
-
-}
-
 @PostMapping("/guild")
 public Guild insertGuild(@RequestBody GuildDtoR dto) {
         Guild guild = conv.dtoRtoGuild(dto);
@@ -52,6 +47,17 @@ public Guild insertGuild(@RequestBody GuildDtoR dto) {
             throw new IllegalArgumentException("La proprietà 'authentication_seal' deve essere lunga almeno 8 caratteri e deve contenere almeno una minuscola, una maiuscola, un numero e un carattere speciale.");
     
 }
+
+@PostMapping("/patronlogin")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        // Simulazione di una logica di autenticazione
+        String authentication_seal = loginRequest.getAuthentication_seal();
+
+        if (authentication_seal.isValidAuthenticationSeal()) 
+            return ResponseEntity.ok("Login riuscito!");
+        else            
+            return ResponseEntity.status(401).body("Credenziali non valide");
+        }
 
 private boolean isValidAuthenticationSeal(String authenticationSeal){
    
@@ -87,6 +93,11 @@ private boolean isValidAuthenticationSeal(String authenticationSeal){
         
     }
     return hasLowerCase && hasUpperCase && hasNumber && hasSpecialChar;
+}
+
+@GetMapping ("/guild/{id}")
+public GuildDtoWFull getMethodName(@PathVariable Integer id) {
+    return conv.guildToDtoWFull(repo.findById(id).get());
 }
 
 @PutMapping ("/guild/{id}")
