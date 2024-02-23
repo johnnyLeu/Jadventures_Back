@@ -1,4 +1,4 @@
-package dto.guild;
+package dto.adventurer;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class GuildDtoR extends GuildDtoBase
+public class AdventurerDtoR extends AdventurerDtoBase
 {
     
 }

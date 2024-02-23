@@ -28,7 +28,7 @@ public class QuestController
     QuestConverter conv;
 
     
-     @GetMapping("/quest")
+    @GetMapping("/quest")
     public List<QuestDtoWFull> getAllQuestFull() 
     {
         return  repo.findAll()
@@ -71,13 +71,13 @@ public class QuestController
     return !((status.equals("success") || status.equals("failed")) && dateCompleted == null);
     }
 
-     @GetMapping("/quest/{id}")
+    @GetMapping("/quest/{id}")
     public QuestDtoWFull getMethodName(@PathVariable  @NonNull Integer id) 
     {
         return conv.questToDtoWFull(repo.findById(id).get());
     }
 
-     @PutMapping("/quest/{id}")
+    @PutMapping("/quest/{id}")
     public QuestDtoWFull updateQuest(@RequestBody QuestDtoR dto,@PathVariable Integer id) 
     {
         Quest q = conv.dtoRtoQuest(dto);

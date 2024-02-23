@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import converter.GuildConverter;
 import dto.guild.GuildDtoR;
 import dto.guild.GuildDtoWFull;
-import dto.guild.logInDtoR;
 import entities.Guild;
 import entities.LoginRequest;
 import repository.GuildRepository;
@@ -53,15 +53,15 @@ public Guild insertGuild(@RequestBody GuildDtoR dto) {
         // Simulazione di una logica di autenticazione
         String authentication_seal = loginRequest.getAuthentication_seal();
 
-        if (authentication_seal.isValidAuthenticationSeal()) 
+        if (isValidAuthenticationSeal(authentication_seal)) 
             return ResponseEntity.ok("Login riuscito!");
         else            
             return ResponseEntity.status(401).body("Credenziali non valide");
         }
 
-private boolean isValidAuthenticationSeal(String authenticationSeal){
+private boolean isValidAuthenticationSeal(String authentication_seal){
    
-    if (authenticationSeal == null || authenticationSeal.length() < 8) 
+    if (authentication_seal == null || authentication_seal.length() < 8) 
         return false;
     
     boolean hasLowerCase = false;
@@ -69,20 +69,17 @@ private boolean isValidAuthenticationSeal(String authenticationSeal){
     boolean hasNumber = false;
     boolean hasSpecialChar = false;
 
-    for (char c : authenticationSeal.toCharArray()) {
+    for (char c : authentication_seal.toCharArray()) {
         if (Character.isLowerCase(c)) 
             hasLowerCase = true;
 
-        else 
-            if (Character.isUpperCase(c)) 
+        else if (Character.isUpperCase(c)) 
                 hasUpperCase = true;
 
-        else 
-            if (Character.isDigit(c)) 
+        else if (Character.isDigit(c)) 
                 hasNumber = true;
 
-        else 
-            if (
+        else if (
                 !Character.isLowerCase(c)  && 
                 !Character.isUpperCase(c)  && 
                 !Character.isDigit(c)      && 
